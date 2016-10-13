@@ -11,6 +11,12 @@ machine:
     SBT_OPTS: "-XX:+CMSClassUnloadingEnabled -Xms3072m -Xmx3072m -XX:MaxPermSize=768m -XX:ReservedCodeCacheSize=384m -Dfile.encoding=UTF8"
 
 dependencies:
+  pre:
+    - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.11.deb
+    - sudo dpkg -i sbt-0.13.11.deb
+  cache_directories:
+    - "~/.ivy2"
+    - "~/.sbt"
   override:
     - docker info
     - echo $VERSION
