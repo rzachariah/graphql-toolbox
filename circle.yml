@@ -14,9 +14,8 @@ dependencies:
   override:
     - docker info
     - echo $VERSION
-    # Install npm dependencies
     - npm install
-    # Build container
+    - sbt compile
     - sbt docker:publishLocal
     # Previous step built a container named graphql-toolbox:1.0-SNAPSHOT. Tag with better names
     - docker tag graphql-toolbox:1.0-SNAPSHOT rzachariah/graphql-toolbox
