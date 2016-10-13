@@ -1,8 +1,6 @@
 machine:
   services:
     - docker
-    - sbt
-    - node
 
 dependencies:
   override:
