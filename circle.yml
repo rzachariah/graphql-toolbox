@@ -1,0 +1,32 @@
+machine:
+  services:
+    - docker
+    - sbt
+    - node
+
+dependencies:
+  override:
+    - docker info
+    # Install npm dependencies
+    - npm install
+    # Build container
+    - sbt docker:publishLocal
+    # Previous step built a container named graphql-toolbox:1.0-SNAPSHOT. Tag with better names
+    - docker tag graphql-toolbox:1.0-SNAPSHOT $IMAGE_NAME
+    - docker tag graphql-toolbox:1.0-SNAPSHOT $IMAGE_NAME:$VERSION
+
+test:
+  override:
+    # Run container
+    - docker run --name graphql-toolbox -d -p 9000:9000 $IMAGE_NAME:$VERSION; sleep 10
+    - docker ps -a
+    - docker logs graphql-toolbox
+    # Hit URL
+    - curl --retry 10 --retry-delay 5 -v http://localhost:9000
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push $IMAGE_NAME
