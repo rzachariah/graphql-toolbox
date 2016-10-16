@@ -21,7 +21,7 @@ dependencies:
     - docker info
     - echo $VERSION
     - npm install
-    - sbt compile
+    - sbt dist
     - sbt docker:publishLocal
     # Previous step built a container named graphql-toolbox:1.0-SNAPSHOT. Tag with better names
     - docker tag graphql-toolbox:1.0-SNAPSHOT rzachariah/graphql-toolbox
